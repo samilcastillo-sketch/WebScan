@@ -71,6 +71,19 @@
         .score-mid { color: #facc15; }
         .score-bad { color: #f87171; }
         .score-card p { color: #94a3b8; margin-top: 8px; }
+        .pdf-btn {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 10px 20px;
+            background: #1e3a5f;
+            color: #38bdf8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid #38bdf8;
+        }
+        .pdf-btn:hover { background: #38bdf8; color: #0f172a; }
 
         .result-item {
             background: #1e293b;
@@ -119,6 +132,7 @@
         <header>
             <h1>🛡️ WebScan</h1>
             <p>Auditoría rápida de seguridad para sitios web</p>
+            <p style="margin-top:10px;"><a href="/historial" style="color:#38bdf8; text-decoration:none;">📜 Ver historial de escaneos</a></p>
         </header>
 
         <form method="POST">
@@ -137,6 +151,9 @@
             </div>
             <p>{{ resultado.url }}</p>
             <p>Analizado: {{ resultado.fecha }}</p>
+            {% if resultado.id %}
+            <a href="/escaneo/{{ resultado.id }}/pdf" class="pdf-btn">⬇️ Descargar reporte PDF</a>
+            {% endif %}
         </div>
 
         {% for item in resultado.resultados %}

@@ -18,6 +18,8 @@ Le das una URL y la herramienta revisa:
 - **Exposición de tecnología**: detecta si headers como `Server` o `X-Powered-By` revelan versiones de software
 - **Archivos sensibles expuestos**: verifica rutas comunes como `.env`, `.git/config`, backups
 - **Puntaje general**: 0-100 según hallazgos, ponderado por nivel de riesgo (Alto/Medio/Bajo)
+- **Historial de escaneos**: cada análisis se guarda en SQLite para consultarlo después
+- **Reporte en PDF**: descarga un reporte profesional de cualquier escaneo realizado
 
 Cada hallazgo incluye una explicación de **por qué importa**, no solo si pasó o falló — la idea es que sirva como herramienta educativa, no solo como checklist.
 
@@ -28,13 +30,15 @@ Este proyecto nace de combinar dos áreas: desarrollo web (Flask, Python) y cibe
 ## 🛠️ Stack
 
 - **Backend**: Python 3 + Flask
-- **Lógica de seguridad**: `requests`, módulo `ssl` nativo de Python
+- **Base de datos**: SQLite (historial de escaneos)
+- **Generación de PDF**: reportlab
+- **Lógica de seguridad**: `requests`, `beautifulsoup4`, módulo `ssl` nativo de Python
 - **Frontend**: HTML + CSS (sin frameworks, vanilla)
 
 ## 🚀 Instalación y uso
 
 ```bash
-git clone https://github.com/samilcastillo-sketch/webscan.git
+git clone https://github.com/TU_USUARIO/webscan.git
 cd webscan
 python3 -m venv venv
 source venv/bin/activate
@@ -48,11 +52,14 @@ Abre `http://localhost:5000` en tu navegador y escanea cualquier URL.
 
 ```
 webscan/
-├── app.py              # Servidor Flask (rutas, formulario)
+├── app.py              # Servidor Flask (rutas, formulario, historial, PDF)
 ├── scanner.py          # Lógica de análisis de seguridad
+├── database.py         # Manejo del historial en SQLite
+├── reporte_pdf.py       # Generación de reportes PDF
 ├── requirements.txt    # Dependencias
 └── templates/
-    └── index.html       # Interfaz web
+    ├── index.html       # Interfaz principal del escáner
+    └── historial.html    # Listado de escaneos guardados
 ```
 
 ## 🗺️ Roadmap
@@ -65,8 +72,8 @@ webscan/
 - [x] Detección de versiones TLS obsoletas
 - [x] Detección de exposición de tecnología/versión del servidor
 - [x] Verificación de archivos sensibles expuestos (.env, .git/config, etc.)
-- [ ] Historial de escaneos (SQLite)
-- [ ] Exportar reporte a PDF
+- [x] Historial de escaneos (SQLite)
+- [x] Exportar reporte a PDF
 - [ ] Dockerización
 - [ ] Deploy público
 
@@ -80,4 +87,4 @@ MIT — libre para usar, modificar y aprender de él.
 
 ---
 
-Construido por Samil Jose Castillo Genao — estudiante de Ingeniería en Ciberseguridad, UNICARIBE.
+Construido por [Tu Nombre] — estudiante de Ingeniería en Ciberseguridad, UNICARIBE.
