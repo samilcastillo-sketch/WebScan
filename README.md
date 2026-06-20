@@ -34,7 +34,7 @@ Este proyecto nace de combinar dos áreas: desarrollo web (Flask, Python) y cibe
 ## 🚀 Instalación y uso
 
 ```bash
-git clone https://github.com/TU_USUARIO/webscan.git
+git clone https://github.com/samilcastillo-sketch/webscan.git
 cd webscan
 python3 -m venv venv
 source venv/bin/activate
@@ -80,4 +80,4 @@ MIT — libre para usar, modificar y aprender de él.
 
 ---
 
-Construido por [Tu Nombre] — estudiante de Ingeniería en Ciberseguridad, UNICARIBE.
+Construido por Samil Jose Castillo Genao — estudiante de Ingeniería en Ciberseguridad, UNICARIBE.
