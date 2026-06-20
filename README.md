@@ -13,6 +13,10 @@ Le das una URL y la herramienta revisa:
 - **Headers de seguridad**: `Strict-Transport-Security`, `Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`
 - **Cookies**: verifica flags `Secure`, `HttpOnly` y `SameSite`
 - **Certificado SSL/TLS**: validez y días restantes antes de expirar
+- **Versiones TLS obsoletas**: detecta si el servidor aún acepta TLS 1.0/1.1 (inseguros)
+- **Protección CSRF**: revisa si los formularios de la página incluyen un token anti-CSRF
+- **Exposición de tecnología**: detecta si headers como `Server` o `X-Powered-By` revelan versiones de software
+- **Archivos sensibles expuestos**: verifica rutas comunes como `.env`, `.git/config`, backups
 - **Puntaje general**: 0-100 según hallazgos, ponderado por nivel de riesgo (Alto/Medio/Bajo)
 
 Cada hallazgo incluye una explicación de **por qué importa**, no solo si pasó o falló — la idea es que sirva como herramienta educativa, no solo como checklist.
@@ -57,9 +61,12 @@ webscan/
 - [x] Verificación de cookies
 - [x] Validación de certificado SSL/TLS
 - [x] Sistema de puntaje ponderado por riesgo
+- [x] Detección de formularios sin protección CSRF
+- [x] Detección de versiones TLS obsoletas
+- [x] Detección de exposición de tecnología/versión del servidor
+- [x] Verificación de archivos sensibles expuestos (.env, .git/config, etc.)
 - [ ] Historial de escaneos (SQLite)
 - [ ] Exportar reporte a PDF
-- [ ] Detección de formularios sin protección CSRF
 - [ ] Dockerización
 - [ ] Deploy público
 
