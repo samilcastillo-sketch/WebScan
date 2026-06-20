@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebScan - Auditoría de Seguridad Web</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        header h1 {
+            font-size: 2rem;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        header p { color: #94a3b8; margin-top: 8px; }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 14px 18px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        input[type="text"]:focus { outline: 2px solid #38bdf8; }
+        button {
+            padding: 14px 28px;
+            border-radius: 8px;
+            border: none;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover { background: #0ea5e9; }
+
+        .error {
+            background: #450a0a;
+            border: 1px solid #991b1b;
+            color: #fca5a5;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .score-card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .score-number { font-size: 3.5rem; font-weight: 700; }
+        .score-good { color: #4ade80; }
+        .score-mid { color: #facc15; }
+        .score-bad { color: #f87171; }
+        .score-card p { color: #94a3b8; margin-top: 8px; }
+
+        .result-item {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            border-left: 4px solid #334155;
+        }
+        .result-item.ok { border-left-color: #4ade80; }
+        .result-item.falla { border-left-color: #f87171; }
+        .result-item.alerta { border-left-color: #facc15; }
+        .result-item.info { border-left-color: #38bdf8; }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .result-name { font-weight: 600; }
+        .badge {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .badge.ok { background: #064e3b; color: #4ade80; }
+        .badge.falla { background: #450a0a; color: #f87171; }
+        .badge.alerta { background: #422006; color: #facc15; }
+        .badge.info { background: #0c4a6e; color: #38bdf8; }
+
+        .result-detail { color: #cbd5e1; font-size: 0.9rem; margin-top: 6px; }
+        .result-explain { color: #64748b; font-size: 0.85rem; margin-top: 6px; font-style: italic; }
+
+        .risk-tag {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        footer { text-align: center; color: #475569; margin-top: 40px; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ WebScan</h1>
+            <p>Auditoría rápida de seguridad para sitios web</p>
+        </header>
+
+        <form method="POST">
+            <input type="text" name="url" placeholder="ejemplo.com o https://ejemplo.com" required>
+            <button type="submit">Analizar</button>
+        </form>
+
+        {% if error %}
+        <div class="error">⚠️ {{ error }}</div>
+        {% endif %}
+
+        {% if resultado %}
+        <div class="score-card">
+            <div class="score-number {% if resultado.puntaje >= 80 %}score-good{% elif resultado.puntaje >= 50 %}score-mid{% else %}score-bad{% endif %}">
+                {{ resultado.puntaje }}/100
+            </div>
+            <p>{{ resultado.url }}</p>
+            <p>Analizado: {{ resultado.fecha }}</p>
+        </div>
+
+        {% for item in resultado.resultados %}
+        <div class="result-item {{ item.estado }}">
+            <div class="result-header">
+                <span class="result-name">{{ item.nombre }}</span>
+                <span class="badge {{ item.estado }}">
+                    {% if item.estado == 'ok' %}✅ OK
+                    {% elif item.estado == 'falla' %}❌ Falla
+                    {% elif item.estado == 'alerta' %}⚠️ Alerta
+                    {% else %}ℹ️ Info{% endif %}
+                </span>
+            </div>
+            <div class="result-detail">{{ item.detalle }}</div>
+            <div class="result-explain">{{ item.explicacion }}</div>
+            {% if item.riesgo != 'N/A' %}
+            <div class="risk-tag">Riesgo: {{ item.riesgo }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <footer>Proyecto educativo — WebScan v1.0</footer>
+    </div>
+</body>
+</html>
